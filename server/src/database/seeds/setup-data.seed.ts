@@ -8,11 +8,15 @@ import { quizSampleData } from '../data/quiz.data';
 export class SetupData implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
     console.log('quizSampleData', quizSampleData);
-    await getManager().query('SET foreign_key_checks = 0');
-    await getManager().query('TRUNCATE quizes');
-    await getManager().query('TRUNCATE questions');
-    await getManager().query('TRUNCATE options');
-    await getManager().query('SET foreign_key_checks = 1');
+    await getManager().query('ALTER TABLE quizes DISABLE TRIGGER ALL;');
+    await getManager().query('ALTER TABLE questions DISABLE TRIGGER ALL;');
+    await getManager().query('ALTER TABLE options DISABLE TRIGGER ALL;');
+    await getManager().query('TRUNCATE quizes CASCADE');
+    await getManager().query('TRUNCATE questions CASCADE');
+    await getManager().query('TRUNCATE options CASCADE');
+    await getManager().query('ALTER TABLE quizes ENABLE TRIGGER ALL;');
+    await getManager().query('ALTER TABLE questions ENABLE TRIGGER ALL;');
+    await getManager().query('ALTER TABLE options ENABLE TRIGGER ALL;');
 
     for (let i = 0; i < quizSampleData.length; i++) {
       const { quizTitle, quizDescription, questions } = quizSampleData[i];

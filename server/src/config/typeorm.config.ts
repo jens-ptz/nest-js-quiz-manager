@@ -9,7 +9,7 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
   inject: [ConfigService],
   useFactory: async (): Promise<TypeOrmModuleOptions> => {
     return {
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT, 10),
       username: process.env.DB_USERNAME,
@@ -20,17 +20,14 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
       cli: {
         migrationsDir: __dirname + '/../database/migrations',
       },
-      extra: {
-        charset: 'utf8mb4_unicode_ci',
-      },
-      synchronize: false,
+      synchronize: true,
       logging: true,
     };
   },
 };
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
-  type: 'mysql',
+  type: 'postgres',
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT, 10),
   username: process.env.DB_USERNAME,
@@ -41,9 +38,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   cli: {
     migrationsDir: __dirname + '/../database/migrations',
   },
-  extra: {
-    charset: 'utf8mb4_unicode_ci',
-  },
-  synchronize: false,
+  synchronize: true,
   logging: true,
 };
